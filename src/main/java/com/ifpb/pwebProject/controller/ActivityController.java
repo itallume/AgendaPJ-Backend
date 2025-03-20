@@ -54,9 +54,7 @@ public class ActivityController {
     @PutMapping
     public ResponseEntity<Object> update(@RequestBody ActivityUpdateDTO activityUpdateDTO){
         try {
-            System.out.println("chegou:"+activityUpdateDTO);
             Activity activity = this.activityService.update(activityUpdateDTO);
-            System.out.println(activity.getDate());
             return ResponseEntity.ok(ActivityResponseDto.from(activity));
         } catch (UserNotFound e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
