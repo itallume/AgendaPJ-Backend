@@ -41,6 +41,22 @@ public class Activity {
         this.paied = paid;
     }
 
+    public Activity(UUID id, User user, String title, String description, LocalDate date, String hour, String address, String clientNumber, String clientName, double price, boolean done, double pricePayed, boolean paid) {
+        this.id =id;
+        this.user = user;
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.hour = hour;
+        this.address = address;
+        this.clientNumber = clientNumber;
+        this.clientName = clientName;
+        this.price = price;
+        this.done = done;
+        this.pricePayed = pricePayed;
+        this.paied = paid;
+    }
+
     public Activity(){}
 
     public UUID getId() {

@@ -7,6 +7,7 @@ import com.ifpb.pwebProject.controller.service.ActivityService;
 import com.ifpb.pwebProject.model.User;
 import com.ifpb.pwebProject.model.dto.ActivityRequestDTO;
 import com.ifpb.pwebProject.model.dto.ActivityResponseDto;
+import com.ifpb.pwebProject.model.dto.ActivityUpdateDTO;
 import com.ifpb.pwebProject.repository.UserRepository;
 import com.itextpdf.text.DocumentException;
 import jakarta.persistence.EntityNotFoundException;
@@ -43,7 +44,7 @@ public class ActivityController {
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody ActivityRequestDTO activityRequestDTO){
         try{
-            Activity activity = this.activityService.updateOrSave(activityRequestDTO);
+            Activity activity = this.activityService.Save(activityRequestDTO);
             return ResponseEntity.ok(ActivityResponseDto.from(activity));
         }catch (UserNotFound e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -51,9 +52,11 @@ public class ActivityController {
     }
 
     @PutMapping
-    public ResponseEntity<Object> update(@RequestBody ActivityRequestDTO activityRequestDTO){
+    public ResponseEntity<Object> update(@RequestBody ActivityUpdateDTO activityUpdateDTO){
         try {
-            Activity activity = this.activityService.updateOrSave(activityRequestDTO);
+            System.out.println("chegou:"+activityUpdateDTO);
+            Activity activity = this.activityService.update(activityUpdateDTO);
+            System.out.println(activity.getDate());
             return ResponseEntity.ok(ActivityResponseDto.from(activity));
         } catch (UserNotFound e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

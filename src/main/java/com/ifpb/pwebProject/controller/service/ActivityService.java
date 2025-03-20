@@ -5,6 +5,7 @@ import com.ifpb.pwebProject.exceptions.UserNotFound;
 import com.ifpb.pwebProject.model.Activity;
 import com.ifpb.pwebProject.model.User;
 import com.ifpb.pwebProject.model.dto.ActivityRequestDTO;
+import com.ifpb.pwebProject.model.dto.ActivityUpdateDTO;
 import com.ifpb.pwebProject.repository.ActivityRepository;
 import com.ifpb.pwebProject.repository.UserRepository;
 import com.itextpdf.text.*;
@@ -40,7 +41,7 @@ public class ActivityService {
         return activity.get();
     }
 
-    public Activity updateOrSave(ActivityRequestDTO activityRequestDTO){
+    public Activity Save(ActivityRequestDTO activityRequestDTO){
         if (activityRequestDTO.userID() == null || activityRequestDTO.userID().isEmpty()){
             throw new UserNotFound("Usuário inválido");
         }
@@ -49,6 +50,17 @@ public class ActivityService {
 
         Activity activity = activityRequestDTO.toEntity(user);
        return this.activityRepository.save(activity);
+    }
+
+    public Activity update(ActivityUpdateDTO activityUpdateDTO){
+        if (activityUpdateDTO.userID() == null || activityUpdateDTO.userID().isEmpty()){
+            throw new UserNotFound("Usuário inválido");
+        }
+        User user = userRepository.findById(activityUpdateDTO.userID())
+                .orElse(new User(activityUpdateDTO.userID()));
+
+        Activity activity = activityUpdateDTO.toEntity(user);
+        return this.activityRepository.save(activity);
     }
 
     public void deleteActivity(UUID id){
