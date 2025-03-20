@@ -33,7 +33,7 @@ public record ActivityResponseDto (
                 activity.getPrice(),
                 activity.getPricePayed(),
                 activity.isDone(),
-                activity.isPaid()
+                activity.isPaied()
         );
     }
 }

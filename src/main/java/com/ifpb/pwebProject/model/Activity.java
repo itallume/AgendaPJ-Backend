@@ -3,7 +3,6 @@ package com.ifpb.pwebProject.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -13,7 +12,7 @@ public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private User user;
     private String title;
     private String description;
@@ -25,7 +24,7 @@ public class Activity {
     private double price;
     private double pricePayed;
     private boolean done ;
-    private boolean paid;
+    private boolean paied;
 
     public Activity(User user, String title, String description, LocalDate date, String hour, String address, String clientNumber, String clientName, double price, boolean done, double pricePayed, boolean paid) {
         this.user = user;
@@ -39,7 +38,7 @@ public class Activity {
         this.price = price;
         this.done = done;
         this.pricePayed = pricePayed;
-        this.paid = paid;
+        this.paied = paid;
     }
 
     public Activity(){}
@@ -132,12 +131,12 @@ public class Activity {
         this.pricePayed = pricePayed;
     }
 
-    public boolean isPaid() {
-        return paid;
+    public boolean isPaied() {
+        return paied;
     }
 
-    public void setPaid(boolean paid) {
-        this.paid = paid;
+    public void setPaied(boolean paied) {
+        this.paied = paied;
     }
 
     public boolean isDone() {

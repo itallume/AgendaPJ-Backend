@@ -7,9 +7,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<User, String> {
 
-    @Query("select count(u) > 0 from User u where u.email = :email")
-    public boolean emailInUse(@Param("email") String email);
-
-    @Query("select u from User u where u.email = :email and u.password = :password")
-    public User login(@Param("email") String Email, @Param("password") String password);
+//    @Query("select count(u) > 0 from User u where u.email = :email")
+//    public boolean emailInUse(@Param("email") String email);
+//
+//    @Query("select u from User u where u.email = :email and u.password = :password")
+//    public User login(@Param("email") String Email, @Param("password") String password);
 }
