@@ -12,12 +12,12 @@ import java.util.UUID;
 public interface ActivityRepository extends JpaRepository<Activity, UUID> {
 
     @Query("select a from Activity a where a.date = :date and a.user.id = :id")
-    List<Activity> getActivtiesPerDateByUser(@Param("date") LocalDate date, @Param("id") String userID);
+    List<Activity> getActivtiesPerDateByUser(@Param("date") LocalDate date, @Param("id") UUID userID);
 
     @Query("SELECT a FROM Activity a WHERE YEAR(a.date) = :year AND MONTH(a.date) = :month AND a.user.id = :userId")
     List<Activity> getActivitiesPerMonthByUser(
             @Param("year") int year,
             @Param("month") int month,
-            @Param("userId") String userId
+            @Param("userId") UUID userId
     );
 }

@@ -42,7 +42,7 @@ public class ActivityService {
     }
 
     public Activity Save(ActivityRequestDTO activityRequestDTO){
-        if (activityRequestDTO.userID() == null || activityRequestDTO.userID().isEmpty()){
+        if (activityRequestDTO.userID() == null){
             throw new UserNotFound("Usuário inválido");
         }
         User user = userRepository.findById(activityRequestDTO.userID())
@@ -53,9 +53,15 @@ public class ActivityService {
     }
 
     public Activity update(ActivityUpdateDTO activityUpdateDTO){
-        if (activityUpdateDTO.userID() == null || activityUpdateDTO.userID().isEmpty()){
+        if (activityUpdateDTO.userID() == null){
             throw new UserNotFound("Usuário inválido");
         }
+        
+        // Verifica se a atividade existe
+        if (activityUpdateDTO.id() == null || !activityRepository.existsById(activityUpdateDTO.id())) {
+            throw new ActivityNotFound("Atividade não encontrada");
+        }
+        
         User user = userRepository.findById(activityUpdateDTO.userID())
                 .orElse(new User(activityUpdateDTO.userID()));
 
@@ -67,14 +73,14 @@ public class ActivityService {
         this.activityRepository.deleteById(id);
     }
 
-    public List<Activity> getActivityPerDate(LocalDate date, String userID){
-        if (userID.isEmpty()){
+    public List<Activity> getActivityPerDate(LocalDate date, UUID userID){
+        if (userID == null){
             throw new UserNotFound("Usuário inválido");
         }
         return this.activityRepository.getActivtiesPerDateByUser(date, userID);
     }
 
-    public byte[] generateReportByMonth(LocalDate date, String userID) throws DocumentException, IOException {
+    public byte[] generateReportByMonth(LocalDate date, UUID userID) throws DocumentException, IOException {
 
         List<Activity> activities = this.activityRepository.getActivitiesPerMonthByUser(date.getYear(), date.getMonthValue(), userID);
 

@@ -22,7 +22,7 @@ public record ActivityResponseDto (
     public static ActivityResponseDto from(Activity activity) {
         return new ActivityResponseDto(
                 activity.getId().toString(),
-                activity.getUser().getId(),
+                activity.getUser().getId().toString(),
                 activity.getTitle(),
                 activity.getDescription(),
                 activity.getDate(),

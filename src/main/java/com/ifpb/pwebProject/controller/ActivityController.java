@@ -51,13 +51,27 @@ public class ActivityController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<Object> update(@RequestBody ActivityUpdateDTO activityUpdateDTO){
+    @PatchMapping("/{id}")
+    public ResponseEntity<Object> update(@PathVariable UUID id, @RequestBody ActivityUpdateDTO activityUpdateDTO){
         try {
             Activity activity = this.activityService.update(activityUpdateDTO);
             return ResponseEntity.ok(ActivityResponseDto.from(activity));
         } catch (UserNotFound e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (ActivityNotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/update/{id}")
+    public ResponseEntity<Object> updatePost(@PathVariable UUID id, @RequestBody ActivityUpdateDTO activityUpdateDTO){
+        try {
+            Activity activity = this.activityService.update(activityUpdateDTO);
+            return ResponseEntity.ok(ActivityResponseDto.from(activity));
+        } catch (UserNotFound e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (ActivityNotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
@@ -67,7 +81,7 @@ public class ActivityController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> getActivityPerDateByUser(@RequestParam String userID, @RequestParam LocalDate date){
+    public ResponseEntity<Object> getActivityPerDateByUser(@RequestParam UUID userID, @RequestParam LocalDate date){
         try{
             List<Activity> activities = this.activityService.getActivityPerDate(date, userID);
             return ResponseEntity.ok(activities.stream().map(ActivityResponseDto::from));
@@ -77,7 +91,7 @@ public class ActivityController {
     }
 
     @GetMapping(value = "/report", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<Object> downloadPdf(@RequestParam String userID, @RequestParam LocalDate date) {
+    public ResponseEntity<Object> downloadPdf(@RequestParam UUID userID, @RequestParam LocalDate date) {
         try {
             byte[] pdfBytes = this.activityService.generateReportByMonth(date, userID);
 

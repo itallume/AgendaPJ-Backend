@@ -1,5 +1,7 @@
 package com.ifpb.pwebProject.model.dto;
 
-public record UserResponseDTO(Long id, String name, String email) {
+import java.util.UUID;
+
+public record UserResponseDTO(UUID id, String name, String email) {
 
 }
